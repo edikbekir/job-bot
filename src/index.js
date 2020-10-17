@@ -1,7 +1,19 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const { Telegraf, Stage, session } = require('telegraf');
-const { startScene, findWorkScene } = require('./controllers');
+const {
+  startScene,
+  findWorkScene,
+  postWorkScene,
+  locationScene,
+  categoryScene,
+  headerScene,
+  employmentTypeScene,
+  descriptionScene,
+  salaryScene,
+  contactScene,
+  summaryScene
+} = require('./controllers');
 const { User } = require('./models');
 
 mongoose.connect(`mongodb://localhost:27017/${process.env.DATABASE_HOST}`, {
@@ -14,7 +26,16 @@ mongoose.connection.on('open', () => {
 
   const stage = new Stage([
     startScene,
-    findWorkScene
+    findWorkScene,
+    postWorkScene,
+    locationScene,
+    categoryScene,
+    headerScene,
+    employmentTypeScene,
+    descriptionScene,
+    salaryScene,
+    contactScene,
+    summaryScene
   ]);
   bot.use(session());
   bot.use(stage.middleware());
@@ -26,7 +47,7 @@ mongoose.connection.on('open', () => {
     ctx.scene.enter('findWork');
   });
   bot.hears('📝 Разместить', ctx => {
-
+    ctx.scene.enter('postWork');
   });
   bot.hears('💳 Баланс', ctx => {
 
@@ -42,8 +63,14 @@ mongoose.connection.on('open', () => {
   });
   bot.hears('❌ Отмена', ctx => {
     ctx.scene.enter('start');
-  })
+  });
+
+  bot.on('text', ctx => {
+    if(ctx.message.text === "❌ Отмена"){
+      ctx.scene.enter('start');
+      return;
+    }
+  });
 
   bot.launch();
-
 });

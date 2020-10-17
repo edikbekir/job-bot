@@ -1,9 +1,9 @@
 const Scene = require('telegraf/scenes/base');
 const findWork = new Scene('findWork');
-const { whereFindWorkKeyboard, categoryKeyboard } = require('../../util/keyboards');
+const { locationKeyboard, categoryKeyboard } = require('../../util/keyboards');
 
 findWork.enter(async ctx => {
-  const keyboard = whereFindWorkKeyboard();
+  const keyboard = locationKeyboard();
   ctx.reply('✅ Где вы ищите работу?', keyboard);
 });
 

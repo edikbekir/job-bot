@@ -1,6 +1,6 @@
 const { Markup, Telegraf } = require('telegraf');
 const { jobCategories } = require('./categories');
-const { regions } = require('./regions');
+const { locations } = require('./locations');
 
 const getStartKeyboard = ctx => {
   const findJobKeyboard = Markup.callbackButton(`🔍 Ищу работу`);
@@ -17,13 +17,13 @@ const getStartKeyboard = ctx => {
   ]).resize().extra();
 };
 
-const whereFindWorkKeyboard = ctx => {
+const locationKeyboard = ctx => {
 
-  const markups = regions.map((r, i) =>{
-    if(regions[i] && regions[i+1]){
-      return [regions[i], regions[i+1]];
-    } else if(regions[i]) {
-      return [regions[i]]
+  const markups = locations.map((r, i) =>{
+    if(locations[i] && locations[i+1]){
+      return [locations[i], locations[i+1]];
+    } else if(locations[i]) {
+      return [locations[i]]
     }
   });
 
@@ -47,4 +47,21 @@ const categoryKeyboard = () => {
 
 const cancelMarkup = Markup.callbackButton(`❌ Отмена`);
 
-module.exports = { getStartKeyboard, whereFindWorkKeyboard, categoryKeyboard};
+const getCancelKeyboard = ctx => Markup.keyboard([cancelMarkup]).resize().extra();
+
+const getSummaryKeyboard = ctx => {
+  const applyMarkup = Markup.callbackButton(`🤝 Подтвердить`);
+  const cancelMarkup = Markup.callbackButton(`❌ Отмена`);
+
+  return Markup.keyboard([
+    [applyMarkup, cancelMarkup]
+  ]).resize().extra();
+}
+
+module.exports = {
+  getStartKeyboard,
+  locationKeyboard,
+  categoryKeyboard,
+  getCancelKeyboard,
+  getSummaryKeyboard
+};
