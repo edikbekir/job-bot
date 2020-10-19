@@ -9,6 +9,11 @@ salary.enter(ctx => {
 })
 
 salary.on('text', ctx => {
+  if(ctx.message.text === "❌ Отмена"){
+    ctx.scene.enter('start');
+    return;
+  }
+
   ctx.session.salary = ctx.message.text;
   ctx.scene.enter('contact');
 });

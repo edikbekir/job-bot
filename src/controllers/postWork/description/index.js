@@ -9,6 +9,11 @@ description.enter(ctx => {
 })
 
 description.on('text', ctx => {
+  if(ctx.message.text === "❌ Отмена"){
+    ctx.scene.enter('start');
+    return;
+  }
+
   ctx.session.description = ctx.message.text;
   ctx.scene.enter('salary');
 });

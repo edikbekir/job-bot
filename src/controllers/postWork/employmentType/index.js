@@ -9,6 +9,11 @@ employmentType.enter(ctx => {
 })
 
 employmentType.on('text', ctx => {
+  if(ctx.message.text === "❌ Отмена"){
+    ctx.scene.enter('start');
+    return;
+  }
+
   ctx.session.employmentType = ctx.message.text;
   ctx.scene.enter('description');
 });

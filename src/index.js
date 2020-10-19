@@ -12,13 +12,16 @@ const {
   descriptionScene,
   salaryScene,
   contactScene,
-  summaryScene
+  summaryScene,
+  adsScene,
+  jobsScene
 } = require('./controllers');
 const { User } = require('./models');
 
 mongoose.connect(`mongodb://localhost:27017/${process.env.DATABASE_HOST}`, {
   useNewUrlParser: true,
-  useFindAndModify: true
+  useFindAndModify: true,
+  useUnifiedTopology: true
 });
 
 mongoose.connection.on('open', () => {
@@ -35,7 +38,9 @@ mongoose.connection.on('open', () => {
     descriptionScene,
     salaryScene,
     contactScene,
-    summaryScene
+    summaryScene,
+    adsScene,
+    jobsScene
   ]);
   bot.use(session());
   bot.use(stage.middleware());
@@ -43,7 +48,6 @@ mongoose.connection.on('open', () => {
   bot.start(async ctx => await ctx.scene.enter('start'));
 
   bot.hears('🔍 Ищу работу', ctx => {
-    console.log(ctx.session.user);
     ctx.scene.enter('findWork');
   });
   bot.hears('📝 Разместить', ctx => {
@@ -59,7 +63,7 @@ mongoose.connection.on('open', () => {
 
   });
   bot.hears('🧾 Мои заказы', ctx => {
-
+    ctx.scene.enter('ads');
   });
   bot.hears('❌ Отмена', ctx => {
     ctx.scene.enter('start');

@@ -9,6 +9,11 @@ location.enter(ctx => {
 });
 
 location.on('text', ctx => {
+  if(ctx.message.text === "❌ Отмена"){
+    ctx.scene.enter('start');
+    return;
+  }
+
   ctx.session.location = ctx.message.text;
 
   ctx.scene.enter('category');

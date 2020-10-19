@@ -9,6 +9,11 @@ header.enter(ctx => {
 })
 
 header.on('text', ctx => {
+  if(ctx.message.text === "❌ Отмена"){
+    ctx.scene.enter('start');
+    return;
+  }
+
   ctx.session.header = ctx.message.text;
   ctx.scene.enter('employmentType');
 });

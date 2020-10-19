@@ -3,6 +3,9 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema({
   _id: String,
+  first_name: String,
+  last_name: String,
+  username: String,
   ads: [{
     type: Schema.Types.ObjectId,
     ref: "Ad"

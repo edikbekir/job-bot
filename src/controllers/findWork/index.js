@@ -1,10 +1,12 @@
 const Scene = require('telegraf/scenes/base');
 const findWork = new Scene('findWork');
 const { locationKeyboard, categoryKeyboard } = require('../../util/keyboards');
+const { USER_TYPE_WORKER } = require('../../util/types');
 
 findWork.enter(async ctx => {
-  const keyboard = locationKeyboard();
-  ctx.reply('✅ Где вы ищите работу?', keyboard);
+  ctx.session.userType = USER_TYPE_WORKER;
+
+  ctx.scene.enter('location');
 });
 
 findWork.hears(/\sобласть/, ctx => {

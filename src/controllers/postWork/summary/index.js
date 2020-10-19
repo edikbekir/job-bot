@@ -45,10 +45,11 @@ summary.hears('🤝 Подтвердить', async ctx => {
     header,
     location,
     salary,
+    owner
   });
 
   await user.ads.push(ad);
-
+  await user.save();
   await ctx.reply('Сохранено!')
   await ctx.scene.enter('start');
 });

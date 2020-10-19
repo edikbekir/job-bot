@@ -56,6 +56,12 @@ const getSummaryKeyboard = ctx => {
   return Markup.keyboard([
     [applyMarkup, cancelMarkup]
   ]).resize().extra();
+};
+
+const getAdKeyboard = id => {
+  return Markup.inlineKeyboard([
+      [Markup.callbackButton('❌', JSON.stringify({ a: 'remove', p: id }) )],
+  ]).extra()
 }
 
 module.exports = {
@@ -63,5 +69,6 @@ module.exports = {
   locationKeyboard,
   categoryKeyboard,
   getCancelKeyboard,
-  getSummaryKeyboard
+  getSummaryKeyboard,
+  getAdKeyboard
 };

@@ -11,6 +11,8 @@ const descriptionScene = require('./postWork/description');
 const salaryScene = require('./postWork/salary');
 const contactScene = require('./postWork/contact');
 const summaryScene = require('./postWork/summary');
+const adsScene = require('./ads');
+const jobsScene = require('./findWork/jobs');
 
 module.exports = {
   startScene,
@@ -23,5 +25,7 @@ module.exports = {
   descriptionScene,
   salaryScene,
   contactScene,
-  summaryScene
+  summaryScene,
+  adsScene,
+  jobsScene
 };

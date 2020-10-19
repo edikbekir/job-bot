@@ -9,6 +9,11 @@ contact.enter(ctx => {
 });
 
 contact.on('text', ctx => {
+  if(ctx.message.text === "❌ Отмена"){
+    ctx.scene.enter('start');
+    return;
+  }
+
   ctx.session.contact = ctx.message.text;
   ctx.scene.enter('summary');
 });
