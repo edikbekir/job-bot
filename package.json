@@ -1,9 +1,16 @@
 {
   "dependencies": {
     "@babel/preset-env": "^7.11.5",
+    "axios": "^0.20.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "crypto-random-string": "^3.3.0",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "js-base64": "^3.5.2",
+    "liqpay": "^0.0.1",
     "mongoose": "^5.10.9",
     "node-telegram-bot-api": "^0.50.0",
     "telegraf": "^3.38.0"

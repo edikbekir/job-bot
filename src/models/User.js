@@ -6,6 +6,8 @@ const UserSchema = new Schema({
   first_name: String,
   last_name: String,
   username: String,
+  limit: Number,
+  balance: String,
   ads: [{
     type: Schema.Types.ObjectId,
     ref: "Ad"

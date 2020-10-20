@@ -1,6 +1,20 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const express = require('express');
+const { compare, encodeData, encodeSignature } = require('./util/liqpay');
 const { Telegraf, Stage, session } = require('telegraf');
+const axios = require('axios');
+const request = require('request');
+const bodyParser = require('body-parser')
+
+const {
+  LIQPAY_REQUEST_URL,
+  DATABASE_HOST,
+  TELEGRAM_API_KEY,
+  PORT,
+  LIQPAY_PUBLIC_KEY
+} = process.env;
+
 const {
   startScene,
   findWorkScene,
@@ -14,18 +28,21 @@ const {
   contactScene,
   summaryScene,
   adsScene,
-  jobsScene
+  jobsScene,
+  partnerScene,
+  balanceScene
 } = require('./controllers');
 const { User } = require('./models');
 
-mongoose.connect(`mongodb://localhost:27017/${process.env.DATABASE_HOST}`, {
+mongoose.connect(`mongodb://localhost:27017/${DATABASE_HOST}`, {
   useNewUrlParser: true,
   useFindAndModify: true,
   useUnifiedTopology: true
 });
 
 mongoose.connection.on('open', () => {
-  const bot = new Telegraf(process.env.TELEGRAM_API_KEY);
+  const bot = new Telegraf(TELEGRAM_API_KEY);
+  const server = express();
 
   const stage = new Stage([
     startScene,
@@ -40,8 +57,49 @@ mongoose.connection.on('open', () => {
     contactScene,
     summaryScene,
     adsScene,
-    jobsScene
+    jobsScene,
+    partnerScene,
+    balanceScene
   ]);
+
+  server.use( bodyParser.json() );
+  server.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+  server.post('/liqpay/callback', async (req, res) => {
+    const { data, signature } = req.body;
+
+    const authentic = compare(data, signature);
+
+    if(authentic){
+      const statusData = {
+        action: "status",
+        version: 3,
+        public_key: LIQPAY_PUBLIC_KEY,
+        order_id: req.query.order_id
+      };
+
+      const encodedData = encodeData(statusData);
+      const encodedSignature = encodeSignature(encodedData);
+
+      request.post(LIQPAY_REQUEST_URL, { form: {data : encodedData, signature : encodedSignature}}, function (error, response, body) {
+	        if (!error && response.statusCode == 200) {
+	            console.log(body)
+	        } else{
+            console.log(error)
+	        }
+		    }
+  		);
+    }
+
+    res.status(200).send({success: "123"});
+  });
+
+  server.listen(PORT, (req, res) => {
+    console.log('Server is running!');
+  });
+
   bot.use(session());
   bot.use(stage.middleware());
 
@@ -54,10 +112,10 @@ mongoose.connection.on('open', () => {
     ctx.scene.enter('postWork');
   });
   bot.hears('💳 Баланс', ctx => {
-
+    ctx.scene.enter('balance');
   });
   bot.hears('🤝 Партнёрка', ctx => {
-
+    ctx.scene.enter('partner');
   });
   bot.hears('📚 О боте', ctx => {
 

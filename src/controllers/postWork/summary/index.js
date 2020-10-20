@@ -48,7 +48,9 @@ summary.hears('🤝 Подтвердить', async ctx => {
     owner
   });
 
-  await user.ads.push(ad);
+  user.limit = user.limit - 1;
+  user.ads.push(ad);
+
   await user.save();
   await ctx.reply('Сохранено!')
   await ctx.scene.enter('start');

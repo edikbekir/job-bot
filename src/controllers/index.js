@@ -13,6 +13,8 @@ const contactScene = require('./postWork/contact');
 const summaryScene = require('./postWork/summary');
 const adsScene = require('./ads');
 const jobsScene = require('./findWork/jobs');
+const partnerScene = require('./partner');
+const balanceScene = require('./balance');
 
 module.exports = {
   startScene,
@@ -27,5 +29,7 @@ module.exports = {
   contactScene,
   summaryScene,
   adsScene,
-  jobsScene
+  jobsScene,
+  partnerScene,
+  balanceScene
 };

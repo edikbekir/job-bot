@@ -64,11 +64,35 @@ const getAdKeyboard = id => {
   ]).extra()
 }
 
+const getReplenishKeyboard = () => {
+  return Markup.inlineKeyboard([
+      [Markup.callbackButton('📥 Пополнить', JSON.stringify({ a: 'replenish' }) )],
+  ]).extra()
+};
+
+const getPaymentMethodsKeyboard = () => {
+  return Markup.inlineKeyboard([
+      [Markup.callbackButton('💵 Portmone', JSON.stringify({ a: 'portmone' }) )],
+  ]).extra()
+};
+
+const getSumKeyboard = () => {
+  return Markup.inlineKeyboard([
+      [Markup.callbackButton('50', JSON.stringify({ a: 'sum', p: 50 }) ), Markup.callbackButton('100', JSON.stringify({ a: 'sum', p: 100 }) )],
+      [Markup.callbackButton('150', JSON.stringify({ a: 'sum', p: 150 }) ), Markup.callbackButton('200', JSON.stringify({ a: 'sum', p: 200 }) )],
+      [Markup.callbackButton('250', JSON.stringify({ a: 'sum', p: 250 }) ), Markup.callbackButton('300', JSON.stringify({ a: 'sum', p: 300 }) )],
+      [Markup.callbackButton('350', JSON.stringify({ a: 'sum', p: 350 }) ), Markup.callbackButton('400', JSON.stringify({ a: 'sum', p: 400 }) )],
+  ]).extra();
+};
+
 module.exports = {
   getStartKeyboard,
   locationKeyboard,
   categoryKeyboard,
   getCancelKeyboard,
   getSummaryKeyboard,
-  getAdKeyboard
+  getAdKeyboard,
+  getReplenishKeyboard,
+  getPaymentMethodsKeyboard,
+  getSumKeyboard
 };
