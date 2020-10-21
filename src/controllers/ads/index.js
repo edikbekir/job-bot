@@ -7,7 +7,7 @@ const ads = new Scene('ads');
 ads.enter(async ctx => {
   const userRef = await User.findById(ctx.session.user._id).populate('ads');
   if(userRef.ads.length === 0){
-    await ctx.reply('Пока что нет заказов');
+    await ctx.reply('Пока что нет заказов 😥');
   }
   await userRef.ads.forEach(ad => {
     const keyboard = getAdKeyboard(ad._id);

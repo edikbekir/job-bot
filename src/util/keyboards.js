@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { Markup, Telegraf } = require('telegraf');
 const { jobCategories } = require('./categories');
 const { locations } = require('./locations');
@@ -7,7 +9,7 @@ const getStartKeyboard = ctx => {
   const postJobKeyboard = Markup.callbackButton(`📝 Разместить`);
   const balanceKeyboard = Markup.callbackButton(`💳 Баланс`);
   const partnerKeyboard = Markup.callbackButton(`🤝 Партнёрка`);
-  const aboutKeyboard = Markup.callbackButton(`📚 О боте`);
+  const aboutKeyboard = Markup.callbackButton(`📚 Поддержка`);
   const completedJobsKeyboard = Markup.callbackButton(`🧾 Мои заказы`);
 
   return Markup.keyboard([
@@ -85,6 +87,12 @@ const getSumKeyboard = () => {
   ]).extra();
 };
 
+const getSupportKeyboard = () => {
+  return Markup.inlineKeyboard([
+      [Markup.callbackButton('🧑‍💻', JSON.stringify({ a: process.env.DEVELOPER_LINK }) )],
+  ]).extra()
+}
+
 module.exports = {
   getStartKeyboard,
   locationKeyboard,
@@ -94,5 +102,6 @@ module.exports = {
   getAdKeyboard,
   getReplenishKeyboard,
   getPaymentMethodsKeyboard,
-  getSumKeyboard
+  getSumKeyboard,
+  getSupportKeyboard
 };

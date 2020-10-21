@@ -11,6 +11,10 @@ const UserSchema = new Schema({
   ads: [{
     type: Schema.Types.ObjectId,
     ref: "Ad"
+  }],
+  orders: [{
+    type: Schema.Types.ObjectId,
+    ref: "Order"
   }]
 }, { _id: false});
 

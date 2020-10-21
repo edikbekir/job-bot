@@ -25,7 +25,7 @@ exports.getOrderId = getOrderId;
 
 exports.encodeSignature = encodeSignature;
 
-exports.link = (amount, order_id) => {
+exports.link = (amount, order_id, user_id) => {
   const timestamp = Date.now();
 
   const raw_data = {
@@ -37,7 +37,7 @@ exports.link = (amount, order_id) => {
     'description': 'Номер платежа. №' + order_id,
     'order_id': order_id,
     'version': '3',
-    'server_url': `${process.env.SERVER_URL}/liqpay/callback?order_id=${order_id}`,
+    'server_url': `${process.env.SERVER_URL}/liqpay/callback?order_id=${order_id}&user_id=${user_id}`,
   };
 
   const data = encodeData(raw_data);

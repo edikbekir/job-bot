@@ -22,13 +22,13 @@ start.enter(async ctx => {
   }
 
   if(user){
-    ctx.reply('Добро пожаловать, обратно', keyboard);
+    ctx.reply('Окееей, давай сначала!', keyboard);
   } else {
     user = new User({ _id: uid, username, last_name, first_name, limit: DEFAULT_LIMIT, balance: DEFAULT_BALANCE });
 
     await user.save();
 
-    ctx.reply('Приветствую тебя!', keyboard);
+    ctx.reply('Привет, ну что, поработаем? ⛏️', keyboard);
   }
 
   ctx.session.user = user;

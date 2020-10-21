@@ -30,9 +30,10 @@ const {
   adsScene,
   jobsScene,
   partnerScene,
-  balanceScene
+  balanceScene,
+  supportScene
 } = require('./controllers');
-const { User } = require('./models');
+const { User, Order } = require('./models');
 
 mongoose.connect(`mongodb://localhost:27017/${DATABASE_HOST}`, {
   useNewUrlParser: true,
@@ -59,7 +60,8 @@ mongoose.connection.on('open', () => {
     adsScene,
     jobsScene,
     partnerScene,
-    balanceScene
+    balanceScene,
+    supportScene
   ]);
 
   server.use( bodyParser.json() );
@@ -80,12 +82,23 @@ mongoose.connection.on('open', () => {
         order_id: req.query.order_id
       };
 
+      const user = await User.findById(req.query.user_id);
+
       const encodedData = encodeData(statusData);
       const encodedSignature = encodeSignature(encodedData);
 
-      request.post(LIQPAY_REQUEST_URL, { form: {data : encodedData, signature : encodedSignature}}, function (error, response, body) {
+      request.post(LIQPAY_REQUEST_URL, { form: {data : encodedData, signature : encodedSignature}}, async function (error, response, body) {
 	        if (!error && response.statusCode == 200) {
-	            console.log(body)
+              const { amount, currency } = JSON.parse(body);
+              const order = await Order.create({
+                amount,
+                currency
+              });
+              user.orders.push(order);
+              user.balance = Number(user.balance) + Number(amount);
+              user.limit = user.balance / 5;
+              await user.save();
+              console.log(order)
 	        } else{
             console.log(error)
 	        }
@@ -117,8 +130,8 @@ mongoose.connection.on('open', () => {
   bot.hears('🤝 Партнёрка', ctx => {
     ctx.scene.enter('partner');
   });
-  bot.hears('📚 О боте', ctx => {
-
+  bot.hears('📚 Поддержка', ctx => {
+    ctx.scene.enter('support');
   });
   bot.hears('🧾 Мои заказы', ctx => {
     ctx.scene.enter('ads');

@@ -15,6 +15,7 @@ const adsScene = require('./ads');
 const jobsScene = require('./findWork/jobs');
 const partnerScene = require('./partner');
 const balanceScene = require('./balance');
+const supportScene = require('./support');
 
 module.exports = {
   startScene,
@@ -31,5 +32,6 @@ module.exports = {
   adsScene,
   jobsScene,
   partnerScene,
-  balanceScene
+  balanceScene,
+  supportScene
 };
